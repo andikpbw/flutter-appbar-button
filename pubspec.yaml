@@ -1,0 +1,37 @@
+name: appbar_button
+description: >-
+  Modern, lightweight, and customizable AppBar buttons for Flutter with tonal,
+  filled, outlined, ghost, elevated, and frosted glass styles, badges, toggles,
+  and grouped capsules.
+version: 1.0.0
+homepage: https://humanize.id
+repository: https://github.com/andikpbw/flutter-appbar-button
+issue_tracker: https://github.com/andikpbw/flutter-appbar-button/issues
+funding:
+  - https://humanize.id
+
+topics:
+  - appbar
+  - button
+  - ui
+  - widgets
+  - material
+
+environment:
+  sdk: '>=3.6.0 <4.0.0'
+  flutter: '>=3.27.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+screenshots:
+  - description: >-
+      Animated showcase of AppBarButton variants, badges, loading, toggle,
+      glassmorphic header, and grouped capsules in light and dark themes.
+    path: screenshots/appbar_button_demo.gif

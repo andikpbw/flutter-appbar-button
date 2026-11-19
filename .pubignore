@@ -1,0 +1,16 @@
+# Build, cache, and IDE artifacts
+build/
+**/build/
+.dart_tool/
+**/.dart_tool/
+.pub/
+pubspec.lock
+**/pubspec.lock
+.DS_Store
+.idea/
+.vscode/
+*.iml
+
+# Development-only scripts and CI files
+tool/
+.github/

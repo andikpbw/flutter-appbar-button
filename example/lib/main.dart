@@ -1,5 +1,5 @@
 import 'package:appbar_button/appbar_button.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const AppBarButtonExampleApp());
@@ -19,8 +19,9 @@ class _AppBarButtonExampleAppState extends State<AppBarButtonExampleApp> {
 
   void _toggleTheme() {
     setState(() {
-      _themeMode =
-          _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+      _themeMode = _themeMode == ThemeMode.light
+          ? ThemeMode.dark
+          : ThemeMode.light;
     });
   }
 
@@ -121,14 +122,10 @@ class _ShowcaseHomePageState extends State<ShowcaseHomePage> {
 
     return Scaffold(
       drawer: const Drawer(
-        child: SafeArea(
-          child: Center(child: Text('Navigation Drawer')),
-        ),
+        child: SafeArea(child: Center(child: Text('Navigation Drawer'))),
       ),
       appBar: AppBar(
-        leading: const AppBarButton.menu(
-          variant: AppBarButtonVariant.tonal,
-        ),
+        leading: const AppBarButton.menu(variant: AppBarButtonVariant.tonal),
         title: const Text(
           'appbar_button',
           style: TextStyle(fontWeight: FontWeight.w700),
@@ -414,16 +411,16 @@ class _SectionCard extends StatelessWidget {
         children: [
           Text(
             title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 2),
           Text(
             subtitle,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: cs.onSurfaceVariant,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
           ),
           const SizedBox(height: 14),
           child,

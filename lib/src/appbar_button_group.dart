@@ -1,6 +1,6 @@
 import 'dart:ui' show ImageFilter;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'appbar_button_style.dart';
 import 'appbar_button_theme.dart';
@@ -50,8 +50,8 @@ class AppBarButtonGroup extends StatelessWidget {
     this.dividerHeight,
     this.blurSigma = 12.0,
     this.boxShadow,
-  })  : unified = true,
-        spacing = 0.0;
+  }) : unified = true,
+       spacing = 0.0;
 
   /// Buttons or toolbar widgets arranged horizontally.
   final List<Widget> children;
@@ -116,36 +116,35 @@ class AppBarButtonGroup extends StatelessWidget {
         borderRadius ?? BorderRadius.circular(size.radius);
     return switch (shape) {
       AppBarButtonShape.rounded => RoundedRectangleBorder(
-          borderRadius: effectiveRadius,
-          side: side,
-        ),
+        borderRadius: effectiveRadius,
+        side: side,
+      ),
       AppBarButtonShape.squircle => () {
-          final BorderRadius resolved = effectiveRadius.resolve(textDirection);
-          return ContinuousRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.elliptical(
-                resolved.topLeft.x * 2.15,
-                resolved.topLeft.y * 2.15,
-              ),
-              topRight: Radius.elliptical(
-                resolved.topRight.x * 2.15,
-                resolved.topRight.y * 2.15,
-              ),
-              bottomLeft: Radius.elliptical(
-                resolved.bottomLeft.x * 2.15,
-                resolved.bottomLeft.y * 2.15,
-              ),
-              bottomRight: Radius.elliptical(
-                resolved.bottomRight.x * 2.15,
-                resolved.bottomRight.y * 2.15,
-              ),
+        final BorderRadius resolved = effectiveRadius.resolve(textDirection);
+        return ContinuousRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.elliptical(
+              resolved.topLeft.x * 2.15,
+              resolved.topLeft.y * 2.15,
             ),
-            side: side,
-          );
-        }(),
+            topRight: Radius.elliptical(
+              resolved.topRight.x * 2.15,
+              resolved.topRight.y * 2.15,
+            ),
+            bottomLeft: Radius.elliptical(
+              resolved.bottomLeft.x * 2.15,
+              resolved.bottomLeft.y * 2.15,
+            ),
+            bottomRight: Radius.elliptical(
+              resolved.bottomRight.x * 2.15,
+              resolved.bottomRight.y * 2.15,
+            ),
+          ),
+          side: side,
+        );
+      }(),
       AppBarButtonShape.circle ||
-      AppBarButtonShape.stadium =>
-        StadiumBorder(side: side),
+      AppBarButtonShape.stadium => StadiumBorder(side: side),
     };
   }
 
@@ -169,10 +168,7 @@ class AppBarButtonGroup extends StatelessWidget {
         heightFactor: 1.0,
         child: Padding(
           padding: padding,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: spaced,
-          ),
+          child: Row(mainAxisSize: MainAxisSize.min, children: spaced),
         ),
       );
     }
@@ -190,7 +186,8 @@ class AppBarButtonGroup extends StatelessWidget {
 
     switch (variant) {
       case AppBarButtonVariant.tonal:
-        resolvedBg = backgroundColor ??
+        resolvedBg =
+            backgroundColor ??
             ambientFg.withValues(alpha: lightFg ? 0.14 : 0.075);
       case AppBarButtonVariant.filled:
         resolvedBg = backgroundColor ?? cs.primary;
@@ -204,7 +201,8 @@ class AppBarButtonGroup extends StatelessWidget {
       case AppBarButtonVariant.elevated:
         resolvedBg =
             backgroundColor ?? (isDark ? cs.surfaceContainerHigh : cs.surface);
-        resolvedBorder = borderColor ??
+        resolvedBorder =
+            borderColor ??
             cs.outlineVariant.withValues(alpha: isDark ? 0.35 : 0.45);
         resolvedBorderWidth = borderWidth ?? 0.75;
         resolvedShadows ??= [
@@ -215,18 +213,20 @@ class AppBarButtonGroup extends StatelessWidget {
           ),
         ];
       case AppBarButtonVariant.glass:
-        resolvedBg = backgroundColor ??
+        resolvedBg =
+            backgroundColor ??
             (lightFg
                 ? Colors.white.withValues(alpha: 0.18)
                 : (isDark
-                    ? Colors.white.withValues(alpha: 0.12)
-                    : Colors.white.withValues(alpha: 0.68)));
-        resolvedBorder = borderColor ??
+                      ? Colors.white.withValues(alpha: 0.12)
+                      : Colors.white.withValues(alpha: 0.68)));
+        resolvedBorder =
+            borderColor ??
             (lightFg
                 ? Colors.white.withValues(alpha: 0.34)
                 : (isDark
-                    ? Colors.white.withValues(alpha: 0.22)
-                    : Colors.black.withValues(alpha: 0.10)));
+                      ? Colors.white.withValues(alpha: 0.22)
+                      : Colors.black.withValues(alpha: 0.10)));
         resolvedBorderWidth = borderWidth ?? 1.0;
     }
 
@@ -235,7 +235,8 @@ class AppBarButtonGroup extends StatelessWidget {
       resolvedBorderWidth = borderWidth ?? 1.0;
     }
 
-    final Color resolvedDivider = dividerColor ??
+    final Color resolvedDivider =
+        dividerColor ??
         switch (variant) {
           AppBarButtonVariant.filled => cs.onPrimary.withValues(alpha: 0.24),
           AppBarButtonVariant.elevated => cs.onSurface.withValues(alpha: 0.14),
@@ -259,8 +260,9 @@ class AppBarButtonGroup extends StatelessWidget {
       segmentedChildren.add(children[i]);
     }
 
-    final AppBarButtonStyle inheritedStyle =
-        AppBarButtonTheme.of(context).style;
+    final AppBarButtonStyle inheritedStyle = AppBarButtonTheme.of(
+      context,
+    ).style;
     final Color? segmentForeground = switch (variant) {
       AppBarButtonVariant.filled =>
         backgroundColor == null ? cs.onPrimary : inheritedStyle.foregroundColor,
@@ -287,10 +289,7 @@ class AppBarButtonGroup extends StatelessWidget {
 
     final Widget capsuleContent = AppBarButtonTheme(
       data: AppBarButtonThemeData(style: childSegmentStyle),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: segmentedChildren,
-      ),
+      child: Row(mainAxisSize: MainAxisSize.min, children: segmentedChildren),
     );
 
     Widget capsule;
@@ -304,10 +303,7 @@ class AppBarButtonGroup extends StatelessWidget {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
             child: DecoratedBox(
-              decoration: ShapeDecoration(
-                color: resolvedBg,
-                shape: outerShape,
-              ),
+              decoration: ShapeDecoration(color: resolvedBg, shape: outerShape),
               child: capsuleContent,
             ),
           ),
@@ -330,10 +326,7 @@ class AppBarButtonGroup extends StatelessWidget {
     return Center(
       widthFactor: 1.0,
       heightFactor: 1.0,
-      child: Padding(
-        padding: padding,
-        child: capsule,
-      ),
+      child: Padding(padding: padding, child: capsule),
     );
   }
 }

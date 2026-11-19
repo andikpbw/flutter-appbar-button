@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'appbar_button_style.dart';
 
@@ -11,21 +11,15 @@ import 'appbar_button_style.dart';
 class AppBarButtonThemeData extends ThemeExtension<AppBarButtonThemeData>
     with Diagnosticable {
   /// Creates an [AppBarButtonThemeData] holding the default [style].
-  const AppBarButtonThemeData({
-    this.style = const AppBarButtonStyle(),
-  });
+  const AppBarButtonThemeData({this.style = const AppBarButtonStyle()});
 
   /// Default style applied to descendant [AppBarButton] widgets unless
   /// overridden directly on the widget.
   final AppBarButtonStyle style;
 
   @override
-  AppBarButtonThemeData copyWith({
-    AppBarButtonStyle? style,
-  }) {
-    return AppBarButtonThemeData(
-      style: style ?? this.style,
-    );
+  AppBarButtonThemeData copyWith({AppBarButtonStyle? style}) {
+    return AppBarButtonThemeData(style: style ?? this.style);
   }
 
   @override
@@ -37,7 +31,8 @@ class AppBarButtonThemeData extends ThemeExtension<AppBarButtonThemeData>
       return this;
     }
     return AppBarButtonThemeData(
-      style: AppBarButtonStyle.lerp(style, other.style, t) ??
+      style:
+          AppBarButtonStyle.lerp(style, other.style, t) ??
           const AppBarButtonStyle(),
     );
   }
@@ -80,8 +75,8 @@ class AppBarButtonTheme extends InheritedTheme {
   /// Returns the closest [AppBarButtonThemeData] from the widget tree, or
   /// `null` if none is configured.
   static AppBarButtonThemeData? maybeOf(BuildContext context) {
-    final AppBarButtonTheme? inherited =
-        context.dependOnInheritedWidgetOfExactType<AppBarButtonTheme>();
+    final AppBarButtonTheme? inherited = context
+        .dependOnInheritedWidgetOfExactType<AppBarButtonTheme>();
     if (inherited != null) {
       return inherited.data;
     }

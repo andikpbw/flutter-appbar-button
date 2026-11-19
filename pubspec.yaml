@@ -3,7 +3,7 @@ description: >-
   Modern, lightweight, and customizable AppBar buttons for Flutter with tonal,
   filled, outlined, ghost, elevated, and frosted glass styles, badges, toggles,
   and grouped capsules.
-version: 1.0.0
+version: 1.0.1
 homepage: https://humanize.id
 repository: https://github.com/andikpbw/flutter-appbar-button
 issue_tracker: https://github.com/andikpbw/flutter-appbar-button/issues
@@ -18,14 +18,16 @@ topics:
   - material
 
 environment:
-  sdk: '>=3.6.0 <4.0.0'
-  flutter: '>=3.27.0'
+  sdk: '>=3.12.0 <4.0.0'
+  flutter: '>=3.44.0'
 
 dependencies:
   flutter:
     sdk: flutter
+  material_ui: ^1.2.0
 
 dev_dependencies:
+  cupertino_ui: ^1.0.0
   flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter

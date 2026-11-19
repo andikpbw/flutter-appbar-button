@@ -1,3 +1,9 @@
+## 1.0.1
+
+* Migrated Material imports from deprecated `package:flutter/material.dart` to the official standalone `package:material_ui/material_ui.dart` package for full Flutter 3.47+ / 3.50+ compatibility and zero static analysis warnings on pub.dev.
+* Migrated Cupertino test imports to `package:cupertino_ui/cupertino_ui.dart`.
+* Hardened edge cases for `BorderRadiusDirectional` squircle scaling, high-contrast `elevated` unified capsules on colored app bars, partial `textStyle` merging, custom `OutlinedBorder` clipping, and overlay-free safety.
+
 ## 1.0.0
 
 * Initial release of `appbar_button`.

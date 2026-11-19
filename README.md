@@ -31,7 +31,7 @@ Elevate your `AppBar`, `SliverAppBar`, `CupertinoNavigationBar`, and custom tool
 
 ## Features
 
-- **Zero External Dependencies** — Built purely on Flutter's core rendering and Material primitives; lightweight and 100% compatible with Android, iOS, Web, WASM, macOS, Windows, and Linux.
+- **Zero Third-Party Dependencies** — Built purely on Flutter's core framework and official `material_ui` package; lightweight and 100% compatible with Android, iOS, Web, WASM, macOS, Windows, and Linux.
 - **Six Modern Variants** — `tonal`, `filled`, `outlined`, `ghost`, `elevated`, and frosted `glass` (`BackdropFilter`).
 - **Four Refined Shapes** — `rounded`, Apple-inspired continuous `squircle`, `circle`, and `stadium` capsule.
 - **Ergonomic Named Constructors** — `AppBarButton.icon`, `.back`, `.close`, `.menu`, `.pill`, `.toggle`, and `.avatar` — all `const`-ready.
@@ -51,7 +51,7 @@ Add `appbar_button` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  appbar_button: ^1.0.0
+  appbar_button: ^1.0.1
 ```
 
 Then run:
@@ -66,7 +66,7 @@ flutter pub get
 
 ```dart
 import 'package:appbar_button/appbar_button.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

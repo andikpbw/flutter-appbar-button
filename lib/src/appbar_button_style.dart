@@ -1,7 +1,7 @@
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Visual surface style variants for [AppBarButton].
 enum AppBarButtonVariant {
@@ -79,46 +79,46 @@ enum AppBarButtonHaptic {
 extension AppBarButtonSizeMetrics on AppBarButtonSize {
   /// Default visual height (and width for square/circular buttons).
   double get dimension => switch (this) {
-        AppBarButtonSize.small => 34.0,
-        AppBarButtonSize.medium => 40.0,
-        AppBarButtonSize.large => 44.0,
-      };
+    AppBarButtonSize.small => 34.0,
+    AppBarButtonSize.medium => 40.0,
+    AppBarButtonSize.large => 44.0,
+  };
 
   /// Default icon size.
   double get iconSize => switch (this) {
-        AppBarButtonSize.small => 18.0,
-        AppBarButtonSize.medium => 20.0,
-        AppBarButtonSize.large => 22.0,
-      };
+    AppBarButtonSize.small => 18.0,
+    AppBarButtonSize.medium => 20.0,
+    AppBarButtonSize.large => 22.0,
+  };
 
   /// Default label font size.
   double get fontSize => switch (this) {
-        AppBarButtonSize.small => 12.5,
-        AppBarButtonSize.medium => 13.5,
-        AppBarButtonSize.large => 14.5,
-      };
+    AppBarButtonSize.small => 12.5,
+    AppBarButtonSize.medium => 13.5,
+    AppBarButtonSize.large => 14.5,
+  };
 
   /// Default horizontal padding for pill/labeled buttons.
   double get horizontalPadding => switch (this) {
-        AppBarButtonSize.small => 10.0,
-        AppBarButtonSize.medium => 13.0,
-        AppBarButtonSize.large => 16.0,
-      };
+    AppBarButtonSize.small => 10.0,
+    AppBarButtonSize.medium => 13.0,
+    AppBarButtonSize.large => 16.0,
+  };
 
   /// Default corner radius for [AppBarButtonShape.rounded] and
   /// [AppBarButtonShape.squircle].
   double get radius => switch (this) {
-        AppBarButtonSize.small => 10.0,
-        AppBarButtonSize.medium => 12.0,
-        AppBarButtonSize.large => 14.0,
-      };
+    AppBarButtonSize.small => 10.0,
+    AppBarButtonSize.medium => 12.0,
+    AppBarButtonSize.large => 14.0,
+  };
 
   /// Default horizontal gap between icon and label.
   double get gap => switch (this) {
-        AppBarButtonSize.small => 5.0,
-        AppBarButtonSize.medium => 6.0,
-        AppBarButtonSize.large => 8.0,
-      };
+    AppBarButtonSize.small => 5.0,
+    AppBarButtonSize.medium => 6.0,
+    AppBarButtonSize.large => 8.0,
+  };
 }
 
 /// Comprehensive visual and behavioral styling configuration for
@@ -470,8 +470,9 @@ class AppBarButtonStyle with Diagnosticable {
       blurSigma: lerpDouble(a?.blurSigma, b?.blurSigma, t),
       disabledOpacity: lerpDouble(a?.disabledOpacity, b?.disabledOpacity, t),
       pressedScale: lerpDouble(a?.pressedScale, b?.pressedScale, t),
-      enableScaleAnimation:
-          t < 0.5 ? a?.enableScaleAnimation : b?.enableScaleAnimation,
+      enableScaleAnimation: t < 0.5
+          ? a?.enableScaleAnimation
+          : b?.enableScaleAnimation,
       animationDuration: t < 0.5 ? a?.animationDuration : b?.animationDuration,
       scaleDuration: t < 0.5 ? a?.scaleDuration : b?.scaleDuration,
       animationCurve: t < 0.5 ? a?.animationCurve : b?.animationCurve,
@@ -527,57 +528,64 @@ class AppBarButtonStyle with Diagnosticable {
 
   @override
   int get hashCode => Object.hashAll([
-        variant,
-        shape,
-        size,
-        backgroundColor,
-        foregroundColor,
-        hoverColor,
-        pressedColor,
-        splashColor,
-        selectedBackgroundColor,
-        selectedForegroundColor,
-        selectedBorderColor,
-        borderColor,
-        borderWidth,
-        focusRingColor,
-        focusRingWidth,
-        borderRadius,
-        customShape,
-        width,
-        height,
-        minWidth,
-        padding,
-        margin,
-        iconSize,
-        gap,
-        textStyle,
-        elevation,
-        shadowColor,
-        boxShadow == null ? null : Object.hashAll(boxShadow!),
-        blurSigma,
-        disabledOpacity,
-        pressedScale,
-        enableScaleAnimation,
-        animationDuration,
-        scaleDuration,
-        animationCurve,
-        hapticFeedback,
-        mouseCursor,
-      ]);
+    variant,
+    shape,
+    size,
+    backgroundColor,
+    foregroundColor,
+    hoverColor,
+    pressedColor,
+    splashColor,
+    selectedBackgroundColor,
+    selectedForegroundColor,
+    selectedBorderColor,
+    borderColor,
+    borderWidth,
+    focusRingColor,
+    focusRingWidth,
+    borderRadius,
+    customShape,
+    width,
+    height,
+    minWidth,
+    padding,
+    margin,
+    iconSize,
+    gap,
+    textStyle,
+    elevation,
+    shadowColor,
+    boxShadow == null ? null : Object.hashAll(boxShadow!),
+    blurSigma,
+    disabledOpacity,
+    pressedScale,
+    enableScaleAnimation,
+    animationDuration,
+    scaleDuration,
+    animationCurve,
+    hapticFeedback,
+    mouseCursor,
+  ]);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(EnumProperty<AppBarButtonVariant>('variant', variant,
-          defaultValue: null))
+      ..add(
+        EnumProperty<AppBarButtonVariant>(
+          'variant',
+          variant,
+          defaultValue: null,
+        ),
+      )
       ..add(EnumProperty<AppBarButtonShape>('shape', shape, defaultValue: null))
       ..add(EnumProperty<AppBarButtonSize>('size', size, defaultValue: null))
       ..add(
-          ColorProperty('backgroundColor', backgroundColor, defaultValue: null))
+        ColorProperty('backgroundColor', backgroundColor, defaultValue: null),
+      )
       ..add(
-          ColorProperty('foregroundColor', foregroundColor, defaultValue: null))
+        ColorProperty('foregroundColor', foregroundColor, defaultValue: null),
+      )
       ..add(ColorProperty('borderColor', borderColor, defaultValue: null))
       ..add(DoubleProperty('borderWidth', borderWidth, defaultValue: null))
       ..add(DoubleProperty('width', width, defaultValue: null))
@@ -585,7 +593,12 @@ class AppBarButtonStyle with Diagnosticable {
       ..add(DoubleProperty('iconSize', iconSize, defaultValue: null))
       ..add(DoubleProperty('blurSigma', blurSigma, defaultValue: null))
       ..add(DoubleProperty('pressedScale', pressedScale, defaultValue: null))
-      ..add(EnumProperty<AppBarButtonHaptic>('hapticFeedback', hapticFeedback,
-          defaultValue: null));
+      ..add(
+        EnumProperty<AppBarButtonHaptic>(
+          'hapticFeedback',
+          hapticFeedback,
+          defaultValue: null,
+        ),
+      );
   }
 }

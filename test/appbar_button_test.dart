@@ -1,10 +1,10 @@
 import 'dart:ui' show PointerDeviceKind;
 
 import 'package:appbar_button/appbar_button.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 Widget _wrapApp(
   Widget child, {
@@ -18,9 +18,7 @@ Widget _wrapApp(
       textDirection: textDirection,
       child: MediaQuery(
         data: MediaQueryData(disableAnimations: disableAnimations),
-        child: Scaffold(
-          body: Center(child: child),
-        ),
+        child: Scaffold(body: Center(child: child)),
       ),
     ),
   );
@@ -81,41 +79,43 @@ void main() {
     });
 
     testWidgets(
-        'AppBarButton.pill supports leading and trailing icon alignment',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(
-        _wrapApp(
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppBarButton.pill(
-                icon: Icons.add_rounded,
-                label: 'Create',
-                onPressed: () {},
-              ),
-              AppBarButton.pill(
-                icon: Icons.arrow_forward_rounded,
-                label: 'Next',
-                iconAlignment: IconAlignment.end,
-                onPressed: () {},
-              ),
-            ],
+      'AppBarButton.pill supports leading and trailing icon alignment',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          _wrapApp(
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppBarButton.pill(
+                  icon: Icons.add_rounded,
+                  label: 'Create',
+                  onPressed: () {},
+                ),
+                AppBarButton.pill(
+                  icon: Icons.arrow_forward_rounded,
+                  label: 'Next',
+                  iconAlignment: IconAlignment.end,
+                  onPressed: () {},
+                ),
+              ],
+            ),
           ),
-        ),
-      );
+        );
 
-      expect(find.text('Create'), findsOneWidget);
-      expect(find.text('Next'), findsOneWidget);
+        expect(find.text('Create'), findsOneWidget);
+        expect(find.text('Next'), findsOneWidget);
 
-      final Offset addPos = tester.getCenter(find.byIcon(Icons.add_rounded));
-      final Offset createPos = tester.getCenter(find.text('Create'));
-      expect(addPos.dx, lessThan(createPos.dx));
+        final Offset addPos = tester.getCenter(find.byIcon(Icons.add_rounded));
+        final Offset createPos = tester.getCenter(find.text('Create'));
+        expect(addPos.dx, lessThan(createPos.dx));
 
-      final Offset nextPos = tester.getCenter(find.text('Next'));
-      final Offset arrowPos =
-          tester.getCenter(find.byIcon(Icons.arrow_forward_rounded));
-      expect(nextPos.dx, lessThan(arrowPos.dx));
-    });
+        final Offset nextPos = tester.getCenter(find.text('Next'));
+        final Offset arrowPos = tester.getCenter(
+          find.byIcon(Icons.arrow_forward_rounded),
+        );
+        expect(nextPos.dx, lessThan(arrowPos.dx));
+      },
+    );
 
     testWidgets('AppBarButton.toggle transitions icon, label, and semantics', (
       WidgetTester tester,
@@ -290,10 +290,7 @@ void main() {
             appBar: AppBar(
               leading: const AppBarButton.menu(),
               actions: const [
-                AppBarButton.menu(
-                  icon: Icons.tune_rounded,
-                  isEndDrawer: true,
-                ),
+                AppBarButton.menu(icon: Icons.tune_rounded, isEndDrawer: true),
               ],
             ),
           ),
@@ -319,9 +316,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             drawer: const Drawer(child: Text('Drawer Content')),
-            appBar: AppBar(
-              leading: const AppBarButton.menu(enabled: false),
-            ),
+            appBar: AppBar(leading: const AppBarButton.menu(enabled: false)),
           ),
         ),
       );
@@ -333,59 +328,61 @@ void main() {
   });
 
   group('Variants, shapes, sizes, and AppBar slot layout', () {
-    testWidgets('all six variants render cleanly and glass uses BackdropFilter',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(
-        _wrapApp(
-          Wrap(
-            spacing: 8,
-            children: [
-              for (final AppBarButtonVariant variant
-                  in AppBarButtonVariant.values)
-                AppBarButton.icon(
-                  Icons.star_rounded,
-                  variant: variant,
-                  onPressed: () {},
-                ),
-            ],
+    testWidgets(
+      'all six variants render cleanly and glass uses BackdropFilter',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          _wrapApp(
+            Wrap(
+              spacing: 8,
+              children: [
+                for (final AppBarButtonVariant variant
+                    in AppBarButtonVariant.values)
+                  AppBarButton.icon(
+                    Icons.star_rounded,
+                    variant: variant,
+                    onPressed: () {},
+                  ),
+              ],
+            ),
           ),
-        ),
-      );
+        );
 
-      expect(find.byType(AppBarButton), findsNWidgets(6));
-      expect(find.byType(BackdropFilter), findsOneWidget);
-    });
+        expect(find.byType(AppBarButton), findsNWidgets(6));
+        expect(find.byType(BackdropFilter), findsOneWidget);
+      },
+    );
 
     testWidgets(
-        'all shapes render cleanly including circle with label fallback',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(
-        _wrapApp(
-          Wrap(
-            spacing: 8,
-            children: [
-              for (final AppBarButtonShape shape in AppBarButtonShape.values)
-                AppBarButton.icon(
-                  Icons.bolt_rounded,
-                  shape: shape,
+      'all shapes render cleanly including circle with label fallback',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          _wrapApp(
+            Wrap(
+              spacing: 8,
+              children: [
+                for (final AppBarButtonShape shape in AppBarButtonShape.values)
+                  AppBarButton.icon(
+                    Icons.bolt_rounded,
+                    shape: shape,
+                    onPressed: () {},
+                  ),
+                AppBarButton.pill(
+                  label: 'Circle Fallback',
+                  shape: AppBarButtonShape.circle,
                   onPressed: () {},
                 ),
-              AppBarButton.pill(
-                label: 'Circle Fallback',
-                shape: AppBarButtonShape.circle,
-                onPressed: () {},
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
+        );
 
-      expect(find.byType(AppBarButton), findsNWidgets(5));
-      expect(find.text('Circle Fallback'), findsOneWidget);
-    });
+        expect(find.byType(AppBarButton), findsNWidgets(5));
+        expect(find.text('Circle Fallback'), findsOneWidget);
+      },
+    );
 
-    testWidgets(
-        'size presets apply exact visual heights and AppBar.leading '
+    testWidgets('size presets apply exact visual heights and AppBar.leading '
         'does not stretch the button', (WidgetTester tester) async {
       final Key smallKey = UniqueKey();
       final Key mediumKey = UniqueKey();
@@ -395,9 +392,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            appBar: AppBar(
-              leading: AppBarButton.back(key: leadingKey),
-            ),
+            appBar: AppBar(leading: AppBarButton.back(key: leadingKey)),
             body: Row(
               children: [
                 AppBarButton.icon(
@@ -528,8 +523,9 @@ void main() {
         ),
       );
 
-      final TestGesture gesture =
-          await tester.createGesture(kind: PointerDeviceKind.mouse);
+      final TestGesture gesture = await tester.createGesture(
+        kind: PointerDeviceKind.mouse,
+      );
       await gesture.addPointer(location: Offset.zero);
       addTearDown(gesture.removePointer);
 
@@ -609,10 +605,7 @@ void main() {
       // Verify badges stay compact and never stretch to overflow bounds.
       final Size singleDigitSize = tester.getSize(
         find
-            .ancestor(
-              of: find.text('7'),
-              matching: find.byType(DecoratedBox),
-            )
+            .ancestor(of: find.text('7'), matching: find.byType(DecoratedBox))
             .first,
       );
       expect(singleDigitSize.width, lessThanOrEqualTo(30));
@@ -620,10 +613,7 @@ void main() {
 
       final Size overflowBadgeSize = tester.getSize(
         find
-            .ancestor(
-              of: find.text('99+'),
-              matching: find.byType(DecoratedBox),
-            )
+            .ancestor(of: find.text('99+'), matching: find.byType(DecoratedBox))
             .first,
       );
       expect(overflowBadgeSize.width, lessThanOrEqualTo(48));
@@ -648,10 +638,7 @@ void main() {
               ),
               AppBarButton.icon(
                 Icons.auto_awesome,
-                badge: const AppBarButtonBadge.label(
-                  label: 'NEW',
-                  pulse: true,
-                ),
+                badge: const AppBarButtonBadge.label(label: 'NEW', pulse: true),
                 onPressed: () {},
               ),
             ],
@@ -692,42 +679,42 @@ void main() {
     testWidgets('empty group renders SizedBox.shrink', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(
-        _wrapApp(const AppBarButtonGroup(children: [])),
-      );
+      await tester.pumpWidget(_wrapApp(const AppBarButtonGroup(children: [])));
       expect(find.byType(SizedBox), findsOneWidget);
     });
 
-    testWidgets('unified capsule renders dividers and handles each segment tap',
-        (WidgetTester tester) async {
-      int first = 0;
-      int second = 0;
-      int third = 0;
+    testWidgets(
+      'unified capsule renders dividers and handles each segment tap',
+      (WidgetTester tester) async {
+        int first = 0;
+        int second = 0;
+        int third = 0;
 
-      await tester.pumpWidget(
-        _wrapApp(
-          AppBarButtonGroup.unified(
-            variant: AppBarButtonVariant.glass,
-            children: [
-              AppBarButton.icon(Icons.search, onPressed: () => first++),
-              AppBarButton.icon(Icons.favorite, onPressed: () => second++),
-              AppBarButton.icon(Icons.share, onPressed: () => third++),
-            ],
+        await tester.pumpWidget(
+          _wrapApp(
+            AppBarButtonGroup.unified(
+              variant: AppBarButtonVariant.glass,
+              children: [
+                AppBarButton.icon(Icons.search, onPressed: () => first++),
+                AppBarButton.icon(Icons.favorite, onPressed: () => second++),
+                AppBarButton.icon(Icons.share, onPressed: () => third++),
+              ],
+            ),
           ),
-        ),
-      );
+        );
 
-      expect(find.byType(BackdropFilter), findsOneWidget);
+        expect(find.byType(BackdropFilter), findsOneWidget);
 
-      await tester.tap(find.byIcon(Icons.search));
-      await tester.tap(find.byIcon(Icons.favorite));
-      await tester.tap(find.byIcon(Icons.share));
-      await tester.pumpAndSettle();
+        await tester.tap(find.byIcon(Icons.search));
+        await tester.tap(find.byIcon(Icons.favorite));
+        await tester.tap(find.byIcon(Icons.share));
+        await tester.pumpAndSettle();
 
-      expect(first, 1);
-      expect(second, 1);
-      expect(third, 1);
-    });
+        expect(first, 1);
+        expect(second, 1);
+        expect(third, 1);
+      },
+    );
   });
 
   group('Theming and value objects', () {
@@ -863,8 +850,7 @@ void main() {
       expect(find.text('3'), findsOneWidget);
     });
 
-    testWidgets(
-        'truncates long pill label inside narrow container without '
+    testWidgets('truncates long pill label inside narrow container without '
         'overflow', (WidgetTester tester) async {
       await tester.pumpWidget(
         _wrapApp(
@@ -928,69 +914,69 @@ void main() {
     });
 
     testWidgets(
-        'works seamlessly inside CupertinoApp and CupertinoNavigationBar',
-        (WidgetTester tester) async {
-      bool tapped = false;
-      await tester.pumpWidget(
-        CupertinoApp(
-          home: CupertinoPageScaffold(
-            navigationBar: CupertinoNavigationBar(
-              leading: AppBarButton.back(
-                onPressed: () => tapped = true,
+      'works seamlessly inside CupertinoApp and CupertinoNavigationBar',
+      (WidgetTester tester) async {
+        bool tapped = false;
+        await tester.pumpWidget(
+          CupertinoApp(
+            home: CupertinoPageScaffold(
+              navigationBar: CupertinoNavigationBar(
+                leading: AppBarButton.back(onPressed: () => tapped = true),
+                middle: const Text('Cupertino'),
+                trailing: AppBarButton.icon(
+                  CupertinoIcons.bell,
+                  badge: const AppBarButtonBadge.dot(),
+                  onPressed: () {},
+                ),
               ),
-              middle: const Text('Cupertino'),
-              trailing: AppBarButton.icon(
-                CupertinoIcons.bell,
-                badge: const AppBarButtonBadge.dot(),
-                onPressed: () {},
-              ),
+              child: const Center(child: Text('Body')),
             ),
-            child: const Center(child: Text('Body')),
           ),
-        ),
-      );
+        );
 
-      expect(tester.takeException(), isNull);
-      await tester.tap(find.byType(AppBarButton).first);
-      await tester.pumpAndSettle();
-      expect(tapped, isTrue);
-    });
+        expect(tester.takeException(), isNull);
+        await tester.tap(find.byType(AppBarButton).first);
+        await tester.pumpAndSettle();
+        expect(tapped, isTrue);
+      },
+    );
 
     testWidgets(
-        'resets pressed state cleanly when transitioning into isLoading',
-        (WidgetTester tester) async {
-      bool loading = false;
-      await tester.pumpWidget(
-        MaterialApp(
-          home: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return Scaffold(
-                body: Center(
-                  child: AppBarButton.pill(
-                    icon: Icons.cloud_upload_rounded,
-                    label: 'Upload',
-                    isLoading: loading,
-                    onPressed: () => setState(() => loading = true),
+      'resets pressed state cleanly when transitioning into isLoading',
+      (WidgetTester tester) async {
+        bool loading = false;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return Scaffold(
+                  body: Center(
+                    child: AppBarButton.pill(
+                      icon: Icons.cloud_upload_rounded,
+                      label: 'Upload',
+                      isLoading: loading,
+                      onPressed: () => setState(() => loading = true),
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-      );
+        );
 
-      await tester.tap(find.byType(AppBarButton));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 200));
+        await tester.tap(find.byType(AppBarButton));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 200));
 
-      final AnimatedScale scaleWidget = tester.widget<AnimatedScale>(
-        find.descendant(
-          of: find.byType(AppBarButton),
-          matching: find.byType(AnimatedScale),
-        ),
-      );
-      expect(scaleWidget.scale, 1.0);
-    });
+        final AnimatedScale scaleWidget = tester.widget<AnimatedScale>(
+          find.descendant(
+            of: find.byType(AppBarButton),
+            matching: find.byType(AnimatedScale),
+          ),
+        );
+        expect(scaleWidget.scale, 1.0);
+      },
+    );
 
     testWidgets('supports BorderRadiusDirectional with squircle shape', (
       WidgetTester tester,
@@ -1034,41 +1020,43 @@ void main() {
     });
 
     testWidgets(
-        'elevated unified capsule keeps high-contrast onSurface foreground on '
-        'colored AppBar', (WidgetTester tester) async {
-      final ThemeData lightTheme = ThemeData(useMaterial3: true);
+      'elevated unified capsule keeps high-contrast onSurface foreground on '
+      'colored AppBar',
+      (WidgetTester tester) async {
+        final ThemeData lightTheme = ThemeData(useMaterial3: true);
 
-      await tester.pumpWidget(
-        MaterialApp(
-          theme: lightTheme,
-          home: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.indigo,
-              foregroundColor: Colors.white,
-              actions: [
-                AppBarButtonGroup.unified(
-                  variant: AppBarButtonVariant.elevated,
-                  children: [
-                    AppBarButton.icon(Icons.search_rounded, onPressed: () {}),
-                    AppBarButton.icon(Icons.share_rounded, onPressed: () {}),
-                  ],
-                ),
-              ],
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: lightTheme,
+            home: Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.indigo,
+                foregroundColor: Colors.white,
+                actions: [
+                  AppBarButtonGroup.unified(
+                    variant: AppBarButtonVariant.elevated,
+                    children: [
+                      AppBarButton.icon(Icons.search_rounded, onPressed: () {}),
+                      AppBarButton.icon(Icons.share_rounded, onPressed: () {}),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      );
+        );
 
-      final IconTheme iconTheme = tester.widget<IconTheme>(
-        find
-            .ancestor(
-              of: find.byIcon(Icons.search_rounded),
-              matching: find.byType(IconTheme),
-            )
-            .first,
-      );
-      expect(iconTheme.data.color, lightTheme.colorScheme.onSurface);
-    });
+        final IconTheme iconTheme = tester.widget<IconTheme>(
+          find
+              .ancestor(
+                of: find.byIcon(Icons.search_rounded),
+                matching: find.byType(IconTheme),
+              )
+              .first,
+        );
+        expect(iconTheme.data.color, lightTheme.colorScheme.onSurface);
+      },
+    );
 
     testWidgets('partial custom textStyle merges with size preset fontSize', (
       WidgetTester tester,
@@ -1120,14 +1108,9 @@ void main() {
       expect(shape.side, BorderSide.none);
     });
 
-    testWidgets(
-        'empty tooltip string suppresses default preset tooltip and '
+    testWidgets('empty tooltip string suppresses default preset tooltip and '
         'overlay-free tree renders safely', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        _wrapApp(
-          const AppBarButton.back(tooltip: ''),
-        ),
-      );
+      await tester.pumpWidget(_wrapApp(const AppBarButton.back(tooltip: '')));
       expect(find.byType(Tooltip), findsNothing);
 
       // Without MaterialApp / Overlay ancestor, preset button safely omits Tooltip.

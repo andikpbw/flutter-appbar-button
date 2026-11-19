@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Display mode of an [AppBarButtonBadge].
 enum AppBarButtonBadgeType {
@@ -28,13 +28,13 @@ class AppBarButtonBadge with Diagnosticable {
     this.pulse = false,
     this.visible = true,
     this.semanticLabel,
-  })  : type = AppBarButtonBadgeType.dot,
-        count = null,
-        maxCount = 99,
-        showZero = false,
-        label = null,
-        textColor = null,
-        textStyle = null;
+  }) : type = AppBarButtonBadgeType.dot,
+       count = null,
+       maxCount = 99,
+       showZero = false,
+       label = null,
+       textColor = null,
+       textStyle = null;
 
   /// Creates a numeric counter badge.
   ///
@@ -55,10 +55,10 @@ class AppBarButtonBadge with Diagnosticable {
     this.pulse = false,
     this.visible = true,
     this.semanticLabel,
-  })  : assert(maxCount > 0, 'maxCount must be greater than zero.'),
-        type = AppBarButtonBadgeType.count,
-        label = null,
-        size = 18.0;
+  }) : assert(maxCount > 0, 'maxCount must be greater than zero.'),
+       type = AppBarButtonBadgeType.count,
+       label = null,
+       size = 18.0;
 
   /// Creates a short text label badge (such as `'NEW'` or `'PRO'`).
   const AppBarButtonBadge.label({
@@ -73,11 +73,11 @@ class AppBarButtonBadge with Diagnosticable {
     this.pulse = false,
     this.visible = true,
     this.semanticLabel,
-  })  : type = AppBarButtonBadgeType.label,
-        count = null,
-        maxCount = 99,
-        showZero = false,
-        size = 18.0;
+  }) : type = AppBarButtonBadgeType.label,
+       count = null,
+       maxCount = 99,
+       showZero = false,
+       size = 18.0;
 
   /// Badge rendering mode.
   final AppBarButtonBadgeType type;
@@ -199,23 +199,23 @@ class AppBarButtonBadge with Diagnosticable {
 
   @override
   int get hashCode => Object.hash(
-        type,
-        count,
-        maxCount,
-        showZero,
-        label,
-        color,
-        textColor,
-        textStyle,
-        borderColor,
-        borderWidth,
-        size,
-        alignment,
-        offset,
-        pulse,
-        visible,
-        semanticLabel,
-      );
+    type,
+    count,
+    maxCount,
+    showZero,
+    label,
+    color,
+    textColor,
+    textStyle,
+    borderColor,
+    borderWidth,
+    size,
+    alignment,
+    offset,
+    pulse,
+    visible,
+    semanticLabel,
+  );
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -303,7 +303,8 @@ class _AppBarButtonBadgeViewState extends State<AppBarButtonBadgeView>
     final bool visible = badge.isEffectivelyVisible;
     final Color fillColor = badge.color ?? colorScheme.error;
     final Color onFillColor = badge.textColor ?? colorScheme.onError;
-    final Color ringColor = badge.borderColor ??
+    final Color ringColor =
+        badge.borderColor ??
         widget.fallbackBorderColor ??
         theme.appBarTheme.backgroundColor ??
         colorScheme.surface;
@@ -327,15 +328,16 @@ class _AppBarButtonBadgeViewState extends State<AppBarButtonBadgeView>
     } else {
       final String text = badge.formattedText ?? '';
       final double minHeight = badge.size;
-      final TextStyle resolvedTextStyle = (badge.textStyle ??
-              TextStyle(
-                fontSize: 10.5,
-                fontWeight: FontWeight.w700,
-                height: 1.0,
-                letterSpacing: -0.2,
-                color: onFillColor,
-              ))
-          .copyWith(color: badge.textStyle?.color ?? onFillColor);
+      final TextStyle resolvedTextStyle =
+          (badge.textStyle ??
+                  TextStyle(
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w700,
+                    height: 1.0,
+                    letterSpacing: -0.2,
+                    color: onFillColor,
+                  ))
+              .copyWith(color: badge.textStyle?.color ?? onFillColor);
 
       badgeBody = DecoratedBox(
         decoration: BoxDecoration(
@@ -379,16 +381,14 @@ class _AppBarButtonBadgeViewState extends State<AppBarButtonBadgeView>
             child: AnimatedBuilder(
               animation: controller,
               builder: (BuildContext context, Widget? child) {
-                final double progress =
-                    Curves.easeOut.transform(controller.value);
+                final double progress = Curves.easeOut.transform(
+                  controller.value,
+                );
                 final double scale = 1.0 + (progress * 0.85);
                 final double opacity = (1.0 - progress).clamp(0.0, 1.0) * 0.55;
                 return Transform.scale(
                   scale: scale,
-                  child: Opacity(
-                    opacity: opacity,
-                    child: child,
-                  ),
+                  child: Opacity(opacity: opacity, child: child),
                 );
               },
               child: DecoratedBox(
@@ -409,8 +409,9 @@ class _AppBarButtonBadgeViewState extends State<AppBarButtonBadgeView>
       );
     }
 
-    final Duration animDuration =
-        _disableAnimations ? Duration.zero : const Duration(milliseconds: 180);
+    final Duration animDuration = _disableAnimations
+        ? Duration.zero
+        : const Duration(milliseconds: 180);
 
     return IgnorePointer(
       child: AnimatedScale(

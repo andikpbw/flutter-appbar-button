@@ -1,19 +1,13 @@
 import 'dart:ui' show ImageFilter;
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'appbar_button_badge.dart';
 import 'appbar_button_style.dart';
 import 'appbar_button_theme.dart';
 
-enum _AppBarButtonPresetAction {
-  none,
-  back,
-  close,
-  drawer,
-  endDrawer,
-}
+enum _AppBarButtonPresetAction { none, back, close, drawer, endDrawer }
 
 /// A modern, lightweight, and highly customizable button designed for
 /// [AppBar.leading], [AppBar.actions], [SliverAppBar], and custom toolbars.
@@ -54,15 +48,15 @@ class AppBarButton extends StatefulWidget {
     this.focusNode,
     this.autofocus = false,
     this.excludeFromSemantics = false,
-  })  : assert(
-          icon != null || label != null || child != null,
-          'At least one of icon, label, or child must be provided.',
-        ),
-        _iconData = null,
-        _selectedIconData = null,
-        _presetAction = _AppBarButtonPresetAction.none,
-        _hideWhenCannotPop = false,
-        _isAvatar = false;
+  }) : assert(
+         icon != null || label != null || child != null,
+         'At least one of icon, label, or child must be provided.',
+       ),
+       _iconData = null,
+       _selectedIconData = null,
+       _presetAction = _AppBarButtonPresetAction.none,
+       hideWhenCannotPop = false,
+       _isAvatar = false;
 
   /// Creates an icon-only [AppBarButton] from an [IconData].
   const AppBarButton.icon(
@@ -87,17 +81,17 @@ class AppBarButton extends StatefulWidget {
     this.focusNode,
     this.autofocus = false,
     this.excludeFromSemantics = false,
-  })  : _iconData = icon,
-        _selectedIconData = selectedIcon,
-        icon = null,
-        selectedIcon = null,
-        label = null,
-        selectedLabel = null,
-        child = null,
-        iconAlignment = IconAlignment.start,
-        _presetAction = _AppBarButtonPresetAction.none,
-        _hideWhenCannotPop = false,
-        _isAvatar = false;
+  }) : _iconData = icon,
+       _selectedIconData = selectedIcon,
+       icon = null,
+       selectedIcon = null,
+       label = null,
+       selectedLabel = null,
+       child = null,
+       iconAlignment = IconAlignment.start,
+       _presetAction = _AppBarButtonPresetAction.none,
+       hideWhenCannotPop = false,
+       _isAvatar = false;
 
   /// Creates an adaptive back navigation button.
   ///
@@ -123,24 +117,23 @@ class AppBarButton extends StatefulWidget {
     this.isLoading = false,
     this.loadingIndicator,
     this.enabled = true,
-    bool hideWhenCannotPop = false,
+    this.hideWhenCannotPop = false,
     this.tooltip,
     this.semanticLabel,
     this.focusNode,
     this.autofocus = false,
     this.excludeFromSemantics = false,
-  })  : _iconData = icon,
-        _selectedIconData = null,
-        icon = null,
-        selectedIcon = null,
-        label = null,
-        selectedLabel = null,
-        child = null,
-        isSelected = false,
-        iconAlignment = IconAlignment.start,
-        _presetAction = _AppBarButtonPresetAction.back,
-        _hideWhenCannotPop = hideWhenCannotPop,
-        _isAvatar = false;
+  }) : _iconData = icon,
+       _selectedIconData = null,
+       icon = null,
+       selectedIcon = null,
+       label = null,
+       selectedLabel = null,
+       child = null,
+       isSelected = false,
+       iconAlignment = IconAlignment.start,
+       _presetAction = _AppBarButtonPresetAction.back,
+       _isAvatar = false;
 
   /// Creates a modern close / dismiss button.
   ///
@@ -167,18 +160,18 @@ class AppBarButton extends StatefulWidget {
     this.focusNode,
     this.autofocus = false,
     this.excludeFromSemantics = false,
-  })  : _iconData = icon,
-        _selectedIconData = null,
-        icon = null,
-        selectedIcon = null,
-        label = null,
-        selectedLabel = null,
-        child = null,
-        isSelected = false,
-        iconAlignment = IconAlignment.start,
-        _presetAction = _AppBarButtonPresetAction.close,
-        _hideWhenCannotPop = false,
-        _isAvatar = false;
+  }) : _iconData = icon,
+       _selectedIconData = null,
+       icon = null,
+       selectedIcon = null,
+       label = null,
+       selectedLabel = null,
+       child = null,
+       isSelected = false,
+       iconAlignment = IconAlignment.start,
+       _presetAction = _AppBarButtonPresetAction.close,
+       hideWhenCannotPop = false,
+       _isAvatar = false;
 
   /// Creates a navigation drawer menu button.
   ///
@@ -205,20 +198,20 @@ class AppBarButton extends StatefulWidget {
     this.focusNode,
     this.autofocus = false,
     this.excludeFromSemantics = false,
-  })  : _iconData = icon,
-        _selectedIconData = null,
-        icon = null,
-        selectedIcon = null,
-        label = null,
-        selectedLabel = null,
-        child = null,
-        isSelected = false,
-        iconAlignment = IconAlignment.start,
-        _presetAction = isEndDrawer
-            ? _AppBarButtonPresetAction.endDrawer
-            : _AppBarButtonPresetAction.drawer,
-        _hideWhenCannotPop = false,
-        _isAvatar = false;
+  }) : _iconData = icon,
+       _selectedIconData = null,
+       icon = null,
+       selectedIcon = null,
+       label = null,
+       selectedLabel = null,
+       child = null,
+       isSelected = false,
+       iconAlignment = IconAlignment.start,
+       _presetAction = isEndDrawer
+           ? _AppBarButtonPresetAction.endDrawer
+           : _AppBarButtonPresetAction.drawer,
+       hideWhenCannotPop = false,
+       _isAvatar = false;
 
   /// Creates a capsule pill button displaying a [label] with an optional
   /// leading or trailing [icon] / [iconWidget].
@@ -249,14 +242,14 @@ class AppBarButton extends StatefulWidget {
     this.focusNode,
     this.autofocus = false,
     this.excludeFromSemantics = false,
-  })  : _iconData = icon,
-        _selectedIconData = selectedIcon,
-        icon = iconWidget,
-        selectedIcon = selectedIconWidget,
-        child = null,
-        _presetAction = _AppBarButtonPresetAction.none,
-        _hideWhenCannotPop = false,
-        _isAvatar = false;
+  }) : _iconData = icon,
+       _selectedIconData = selectedIcon,
+       icon = iconWidget,
+       selectedIcon = selectedIconWidget,
+       child = null,
+       _presetAction = _AppBarButtonPresetAction.none,
+       hideWhenCannotPop = false,
+       _isAvatar = false;
 
   /// Creates a toggleable button that smoothly transitions between unselected
   /// and selected icons, labels, and surfaces.
@@ -285,14 +278,14 @@ class AppBarButton extends StatefulWidget {
     this.focusNode,
     this.autofocus = false,
     this.excludeFromSemantics = false,
-  })  : _iconData = icon,
-        _selectedIconData = selectedIcon,
-        icon = null,
-        selectedIcon = null,
-        child = null,
-        _presetAction = _AppBarButtonPresetAction.none,
-        _hideWhenCannotPop = false,
-        _isAvatar = false;
+  }) : _iconData = icon,
+       _selectedIconData = selectedIcon,
+       icon = null,
+       selectedIcon = null,
+       child = null,
+       _presetAction = _AppBarButtonPresetAction.none,
+       hideWhenCannotPop = false,
+       _isAvatar = false;
 
   /// Creates a profile or brand avatar button with clean shape clipping,
   /// subtle framing border, and optional status [badge].
@@ -316,18 +309,18 @@ class AppBarButton extends StatefulWidget {
     this.focusNode,
     this.autofocus = false,
     this.excludeFromSemantics = false,
-  })  : child = avatar,
-        icon = null,
-        selectedIcon = null,
-        label = null,
-        selectedLabel = null,
-        _iconData = null,
-        _selectedIconData = null,
-        isSelected = false,
-        iconAlignment = IconAlignment.start,
-        _presetAction = _AppBarButtonPresetAction.none,
-        _hideWhenCannotPop = false,
-        _isAvatar = true;
+  }) : child = avatar,
+       icon = null,
+       selectedIcon = null,
+       label = null,
+       selectedLabel = null,
+       _iconData = null,
+       _selectedIconData = null,
+       isSelected = false,
+       iconAlignment = IconAlignment.start,
+       _presetAction = _AppBarButtonPresetAction.none,
+       hideWhenCannotPop = false,
+       _isAvatar = true;
 
   /// Primary icon widget shown when unselected (or always if [selectedIcon] is
   /// omitted).
@@ -405,10 +398,13 @@ class AppBarButton extends StatefulWidget {
   /// Whether to exclude this button from the semantics tree.
   final bool excludeFromSemantics;
 
+  /// Whether [AppBarButton.back] collapses into a [SizedBox.shrink] when the
+  /// current route cannot be popped.
+  final bool hideWhenCannotPop;
+
   final IconData? _iconData;
   final IconData? _selectedIconData;
   final _AppBarButtonPresetAction _presetAction;
-  final bool _hideWhenCannotPop;
   final bool _isAvatar;
 
   @override
@@ -517,8 +513,7 @@ class _AppBarButtonState extends State<AppBarButton> {
         localizations?.backButtonTooltip ?? 'Back',
       _AppBarButtonPresetAction.close =>
         localizations?.closeButtonTooltip ?? 'Close',
-      _AppBarButtonPresetAction.drawer ||
-      _AppBarButtonPresetAction.endDrawer =>
+      _AppBarButtonPresetAction.drawer || _AppBarButtonPresetAction.endDrawer =>
         localizations?.openAppDrawerTooltip ?? 'Open navigation menu',
       _AppBarButtonPresetAction.none => null,
     };
@@ -551,26 +546,23 @@ class _AppBarButtonState extends State<AppBarButton> {
 
     return switch (shapePreset) {
       AppBarButtonShape.rounded => RoundedRectangleBorder(
-          borderRadius: effectiveRadius,
-          side: side,
-        ),
+        borderRadius: effectiveRadius,
+        side: side,
+      ),
       AppBarButtonShape.squircle => ContinuousRectangleBorder(
-          borderRadius: _scaleBorderRadius(
-            effectiveRadius.resolve(textDirection),
-            2.15,
-          ),
-          side: side,
+        borderRadius: _scaleBorderRadius(
+          effectiveRadius.resolve(textDirection),
+          2.15,
         ),
+        side: side,
+      ),
       AppBarButtonShape.circle =>
         hasLabel ? StadiumBorder(side: side) : CircleBorder(side: side),
       AppBarButtonShape.stadium => StadiumBorder(side: side),
     };
   }
 
-  BorderRadius _scaleBorderRadius(
-    BorderRadius radius,
-    double factor,
-  ) {
+  BorderRadius _scaleBorderRadius(BorderRadius radius, double factor) {
     return BorderRadius.only(
       topLeft: Radius.elliptical(
         radius.topLeft.x * factor,
@@ -602,8 +594,10 @@ class _AppBarButtonState extends State<AppBarButton> {
     final Color ambientFg = IconTheme.of(context).color ?? cs.onSurface;
     final bool lightFg = ambientFg.computeLuminance() > 0.5;
     final bool selected = widget.isSelected;
-    final double disabledAlpha =
-        (style.disabledOpacity ?? 0.38).clamp(0.05, 1.0);
+    final double disabledAlpha = (style.disabledOpacity ?? 0.38).clamp(
+      0.05,
+      1.0,
+    );
 
     Color baseBg;
     Color baseFg;
@@ -615,7 +609,8 @@ class _AppBarButtonState extends State<AppBarButton> {
     switch (variant) {
       case AppBarButtonVariant.tonal:
         baseFg = style.foregroundColor ?? ambientFg;
-        baseBg = style.backgroundColor ??
+        baseBg =
+            style.backgroundColor ??
             ambientFg.withValues(alpha: lightFg ? 0.14 : 0.075);
         defaultHoverOverlay = baseFg.withValues(alpha: lightFg ? 0.08 : 0.055);
         defaultPressedOverlay = baseFg.withValues(alpha: lightFg ? 0.14 : 0.10);
@@ -639,13 +634,15 @@ class _AppBarButtonState extends State<AppBarButton> {
       case AppBarButtonVariant.outlined:
         baseBg = style.backgroundColor ?? Colors.transparent;
         baseFg = style.foregroundColor ?? ambientFg;
-        baseBorder = style.borderColor ??
+        baseBorder =
+            style.borderColor ??
             ambientFg.withValues(alpha: lightFg ? 0.30 : 0.18);
         baseBorderWidth = style.borderWidth ?? 1.0;
         defaultHoverOverlay = baseFg.withValues(alpha: lightFg ? 0.10 : 0.06);
         defaultPressedOverlay = baseFg.withValues(alpha: lightFg ? 0.16 : 0.11);
         if (selected) {
-          baseBg = style.selectedBackgroundColor ??
+          baseBg =
+              style.selectedBackgroundColor ??
               cs.primary.withValues(alpha: isDark ? 0.22 : 0.12);
           baseFg = style.selectedForegroundColor ?? cs.primary;
           baseBorder =
@@ -659,17 +656,20 @@ class _AppBarButtonState extends State<AppBarButton> {
         defaultHoverOverlay = baseFg.withValues(alpha: lightFg ? 0.12 : 0.08);
         defaultPressedOverlay = baseFg.withValues(alpha: lightFg ? 0.20 : 0.14);
         if (selected) {
-          baseBg = style.selectedBackgroundColor ??
+          baseBg =
+              style.selectedBackgroundColor ??
               cs.primary.withValues(alpha: isDark ? 0.22 : 0.12);
           baseFg = style.selectedForegroundColor ?? cs.primary;
           baseBorder = style.selectedBorderColor ?? Colors.transparent;
         }
 
       case AppBarButtonVariant.elevated:
-        baseBg = style.backgroundColor ??
+        baseBg =
+            style.backgroundColor ??
             (isDark ? cs.surfaceContainerHigh : cs.surface);
         baseFg = style.foregroundColor ?? cs.onSurface;
-        baseBorder = style.borderColor ??
+        baseBorder =
+            style.borderColor ??
             cs.outlineVariant.withValues(alpha: isDark ? 0.35 : 0.45);
         baseBorderWidth = style.borderWidth ?? 0.75;
         defaultHoverOverlay = baseFg.withValues(alpha: isDark ? 0.08 : 0.045);
@@ -682,25 +682,30 @@ class _AppBarButtonState extends State<AppBarButton> {
 
       case AppBarButtonVariant.glass:
         baseFg = style.foregroundColor ?? ambientFg;
-        baseBg = style.backgroundColor ??
+        baseBg =
+            style.backgroundColor ??
             (lightFg
                 ? Colors.white.withValues(alpha: 0.18)
                 : (isDark
-                    ? Colors.white.withValues(alpha: 0.12)
-                    : Colors.white.withValues(alpha: 0.68)));
-        baseBorder = style.borderColor ??
+                      ? Colors.white.withValues(alpha: 0.12)
+                      : Colors.white.withValues(alpha: 0.68)));
+        baseBorder =
+            style.borderColor ??
             (lightFg
                 ? Colors.white.withValues(alpha: 0.34)
                 : (isDark
-                    ? Colors.white.withValues(alpha: 0.22)
-                    : Colors.black.withValues(alpha: 0.10)));
+                      ? Colors.white.withValues(alpha: 0.22)
+                      : Colors.black.withValues(alpha: 0.10)));
         baseBorderWidth = style.borderWidth ?? 1.0;
-        defaultHoverOverlay =
-            Colors.white.withValues(alpha: lightFg ? 0.10 : 0.18);
-        defaultPressedOverlay =
-            Colors.white.withValues(alpha: lightFg ? 0.18 : 0.28);
+        defaultHoverOverlay = Colors.white.withValues(
+          alpha: lightFg ? 0.10 : 0.18,
+        );
+        defaultPressedOverlay = Colors.white.withValues(
+          alpha: lightFg ? 0.18 : 0.28,
+        );
         if (selected) {
-          baseBg = style.selectedBackgroundColor ??
+          baseBg =
+              style.selectedBackgroundColor ??
               cs.primary.withValues(alpha: 0.82);
           baseFg = style.selectedForegroundColor ?? cs.onPrimary;
           baseBorder =
@@ -725,8 +730,9 @@ class _AppBarButtonState extends State<AppBarButton> {
     if (visuallyDisabled) {
       effectiveFg = baseFg.withValues(alpha: baseFg.a * disabledAlpha);
       effectiveBg = baseBg.withValues(alpha: baseBg.a * 0.55);
-      effectiveBorder =
-          baseBorder.withValues(alpha: baseBorder.a * disabledAlpha);
+      effectiveBorder = baseBorder.withValues(
+        alpha: baseBorder.a * disabledAlpha,
+      );
     } else if (_isPressed && _isInteractive) {
       effectiveBg =
           style.pressedColor ?? Color.alphaBlend(defaultPressedOverlay, baseBg);
@@ -857,8 +863,9 @@ class _AppBarButtonState extends State<AppBarButton> {
     required ShapeBorder clipShape,
   }) {
     final double effectiveIconSize = style.iconSize ?? sizePreset.iconSize;
-    final Duration switchDuration =
-        disableAnimations ? Duration.zero : const Duration(milliseconds: 170);
+    final Duration switchDuration = disableAnimations
+        ? Duration.zero
+        : const Duration(milliseconds: 170);
 
     if (widget.child != null) {
       Widget content = widget.isLoading
@@ -885,10 +892,11 @@ class _AppBarButtonState extends State<AppBarButton> {
 
     final String? effectiveLabel =
         widget.isSelected && widget.selectedLabel != null
-            ? widget.selectedLabel
-            : widget.label;
+        ? widget.selectedLabel
+        : widget.label;
     final bool hasLabel = effectiveLabel != null && effectiveLabel.isNotEmpty;
-    final bool hasIcon = widget.icon != null ||
+    final bool hasIcon =
+        widget.icon != null ||
         widget._iconData != null ||
         widget._presetAction == _AppBarButtonPresetAction.back;
 
@@ -902,15 +910,17 @@ class _AppBarButtonState extends State<AppBarButton> {
     final bool visuallyDisabled = !widget.enabled || !_hasInteractiveCallback;
     final TextStyle mergedTextStyle = baseTextStyle.merge(style.textStyle);
     final Color? customTextColor = style.textStyle?.color;
-    final double disabledAlpha =
-        (style.disabledOpacity ?? 0.38).clamp(0.05, 1.0);
+    final double disabledAlpha = (style.disabledOpacity ?? 0.38).clamp(
+      0.05,
+      1.0,
+    );
     final TextStyle resolvedTextStyle = mergedTextStyle.copyWith(
       color: customTextColor != null
           ? (visuallyDisabled
-              ? customTextColor.withValues(
-                  alpha: customTextColor.a * disabledAlpha,
-                )
-              : customTextColor)
+                ? customTextColor.withValues(
+                    alpha: customTextColor.a * disabledAlpha,
+                  )
+                : customTextColor)
           : foregroundColor,
     );
 
@@ -946,16 +956,8 @@ class _AppBarButtonState extends State<AppBarButton> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: widget.iconAlignment == IconAlignment.start
-            ? [
-                leadingOrTrailingSlot,
-                SizedBox(width: gap),
-                labelWidget,
-              ]
-            : [
-                labelWidget,
-                SizedBox(width: gap),
-                leadingOrTrailingSlot,
-              ],
+            ? [leadingOrTrailingSlot, SizedBox(width: gap), labelWidget]
+            : [labelWidget, SizedBox(width: gap), leadingOrTrailingSlot],
       );
     }
 
@@ -994,7 +996,7 @@ class _AppBarButtonState extends State<AppBarButton> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget._hideWhenCannotPop) {
+    if (widget.hideWhenCannotPop) {
       final ModalRoute<dynamic>? route = ModalRoute.of(context);
       final bool canPop =
           (route?.impliesAppBarDismissal ?? false) || Navigator.canPop(context);
@@ -1013,8 +1015,8 @@ class _AppBarButtonState extends State<AppBarButton> {
 
     final String? effectiveLabel =
         widget.isSelected && widget.selectedLabel != null
-            ? widget.selectedLabel
-            : widget.label;
+        ? widget.selectedLabel
+        : widget.label;
     final bool hasLabel = effectiveLabel != null && effectiveLabel.isNotEmpty;
 
     final _ResolvedSurfaceColors colors = _resolveColors(
@@ -1054,14 +1056,13 @@ class _AppBarButtonState extends State<AppBarButton> {
         style.width ?? (hasLabel ? null : sizePreset.dimension);
     final double minWidth = style.minWidth ?? sizePreset.dimension;
 
-    final EdgeInsetsGeometry effectivePadding = style.padding ??
+    final EdgeInsetsGeometry effectivePadding =
+        style.padding ??
         (widget._isAvatar
             ? const EdgeInsets.all(2.0)
             : hasLabel
-                ? EdgeInsets.symmetric(
-                    horizontal: sizePreset.horizontalPadding,
-                  )
-                : EdgeInsets.zero);
+            ? EdgeInsets.symmetric(horizontal: sizePreset.horizontalPadding)
+            : EdgeInsets.zero);
 
     final Duration transitionDuration = disableAnimations
         ? Duration.zero
@@ -1082,10 +1083,7 @@ class _AppBarButtonState extends State<AppBarButton> {
     final VoidCallback? onLongPress = _resolveOnLongPress(context);
 
     Widget content = IconTheme.merge(
-      data: IconThemeData(
-        color: colors.foreground,
-        size: effectiveIconSize,
-      ),
+      data: IconThemeData(color: colors.foreground, size: effectiveIconSize),
       child: _buildContent(
         context: context,
         style: style,
@@ -1097,10 +1095,7 @@ class _AppBarButtonState extends State<AppBarButton> {
     );
 
     if (effectivePadding != EdgeInsets.zero) {
-      content = Padding(
-        padding: effectivePadding,
-        child: content,
-      );
+      content = Padding(padding: effectivePadding, child: content);
     }
 
     final MouseCursor cursor = _isInteractive
@@ -1140,15 +1135,13 @@ class _AppBarButtonState extends State<AppBarButton> {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
         focusColor: Colors.transparent,
-        child: Center(
-          widthFactor: width == null ? 1.0 : null,
-          child: content,
-        ),
+        child: Center(widthFactor: width == null ? 1.0 : null, child: content),
       ),
     );
 
-    final double blurSigma =
-        variant == AppBarButtonVariant.glass ? (style.blurSigma ?? 12.0) : 0.0;
+    final double blurSigma = variant == AppBarButtonVariant.glass
+        ? (style.blurSigma ?? 12.0)
+        : 0.0;
 
     Widget buttonBody;
     if (blurSigma > 0) {
@@ -1242,18 +1235,17 @@ class _AppBarButtonState extends State<AppBarButton> {
 
     final String? effectiveTooltip = _resolveTooltip(context);
     if (effectiveTooltip != null && Overlay.maybeOf(context) != null) {
-      buttonBody = Tooltip(
-        message: effectiveTooltip,
-        child: buttonBody,
-      );
+      buttonBody = Tooltip(message: effectiveTooltip, child: buttonBody);
     }
 
     if (!widget.excludeFromSemantics) {
       final String? resolvedSemanticLabel =
           widget.semanticLabel ?? effectiveTooltip ?? effectiveLabel;
       final String? badgeSemantic = widget.badge?.resolvedSemanticLabel;
-      final String? combinedLabel =
-          switch ((resolvedSemanticLabel, badgeSemantic)) {
+      final String? combinedLabel = switch ((
+        resolvedSemanticLabel,
+        badgeSemantic,
+      )) {
         (final String base, final String b) when b.isNotEmpty => '$base, $b',
         (final String base, _) => base,
         (null, final String b) when b.isNotEmpty => b,
@@ -1270,17 +1262,10 @@ class _AppBarButtonState extends State<AppBarButton> {
     }
 
     if (style.margin != null) {
-      buttonBody = Padding(
-        padding: style.margin!,
-        child: buttonBody,
-      );
+      buttonBody = Padding(padding: style.margin!, child: buttonBody);
     }
 
-    return Center(
-      widthFactor: 1.0,
-      heightFactor: 1.0,
-      child: buttonBody,
-    );
+    return Center(widthFactor: 1.0, heightFactor: 1.0, child: buttonBody);
   }
 }
 

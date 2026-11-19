@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://pub.dev/packages/appbar_button">
-    <img src="https://raw.githubusercontent.com/andikpbw/flutter-appbar-button/main/doc/assets/medal_banner.png" alt="#1 Flutter Library - 160 / 160 Pub Points, Zero Dependencies - Modern & Customizable AppBar Buttons" width="100%" />
+    <img src="https://raw.githubusercontent.com/andikpbw/flutter-appbar-button/main/doc/assets/medal_banner.png" alt="#1 Flutter Library - 160 / 160 Pub Points, Zero Dependencies - Modern & Customizable AppBar Buttons" width="540" />
   </a>
 </p>
 

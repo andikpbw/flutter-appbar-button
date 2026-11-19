@@ -11,6 +11,7 @@ pubspec.lock
 .vscode/
 *.iml
 
-# Development-only scripts and CI files
+# Development-only scripts, docs assets, and CI files
+doc/
 tool/
 .github/

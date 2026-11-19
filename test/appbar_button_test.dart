@@ -991,5 +991,157 @@ void main() {
       );
       expect(scaleWidget.scale, 1.0);
     });
+
+    testWidgets('supports BorderRadiusDirectional with squircle shape', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrapApp(
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppBarButton.icon(
+                Icons.star_rounded,
+                shape: AppBarButtonShape.squircle,
+                style: const AppBarButtonStyle(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(14),
+                    bottomEnd: Radius.circular(14),
+                  ),
+                ),
+                onPressed: () {},
+              ),
+              const SizedBox(height: 12),
+              AppBarButtonGroup.unified(
+                padding: EdgeInsets.zero,
+                shape: AppBarButtonShape.squircle,
+                borderRadius: const BorderRadiusDirectional.only(
+                  topStart: Radius.circular(16),
+                  bottomEnd: Radius.circular(16),
+                ),
+                children: [
+                  AppBarButton.icon(Icons.undo_rounded, onPressed: () {}),
+                  AppBarButton.icon(Icons.redo_rounded, onPressed: () {}),
+                ],
+              ),
+            ],
+          ),
+          textDirection: TextDirection.rtl,
+        ),
+      );
+
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets(
+        'elevated unified capsule keeps high-contrast onSurface foreground on '
+        'colored AppBar', (WidgetTester tester) async {
+      final ThemeData lightTheme = ThemeData(useMaterial3: true);
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: lightTheme,
+          home: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.indigo,
+              foregroundColor: Colors.white,
+              actions: [
+                AppBarButtonGroup.unified(
+                  variant: AppBarButtonVariant.elevated,
+                  children: [
+                    AppBarButton.icon(Icons.search_rounded, onPressed: () {}),
+                    AppBarButton.icon(Icons.share_rounded, onPressed: () {}),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      final IconTheme iconTheme = tester.widget<IconTheme>(
+        find
+            .ancestor(
+              of: find.byIcon(Icons.search_rounded),
+              matching: find.byType(IconTheme),
+            )
+            .first,
+      );
+      expect(iconTheme.data.color, lightTheme.colorScheme.onSurface);
+    });
+
+    testWidgets('partial custom textStyle merges with size preset fontSize', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrapApp(
+          AppBarButton.pill(
+            label: 'Bold',
+            size: AppBarButtonSize.large,
+            style: const AppBarButtonStyle(
+              textStyle: TextStyle(fontWeight: FontWeight.w800),
+            ),
+            onPressed: () {},
+          ),
+        ),
+      );
+
+      final Text textWidget = tester.widget<Text>(find.text('Bold'));
+      expect(textWidget.style?.fontWeight, FontWeight.w800);
+      expect(textWidget.style?.fontSize, 14.5);
+    });
+
+    testWidgets('customShape with BorderSide strips side on inner Material', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrapApp(
+          AppBarButton.icon(
+            Icons.tune_rounded,
+            style: const AppBarButtonStyle(
+              customShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                side: BorderSide(color: Colors.teal, width: 2),
+              ),
+            ),
+            onPressed: () {},
+          ),
+        ),
+      );
+
+      final Material material = tester.widget<Material>(
+        find.descendant(
+          of: find.byType(AppBarButton),
+          matching: find.byType(Material),
+        ),
+      );
+      final RoundedRectangleBorder shape =
+          material.shape! as RoundedRectangleBorder;
+      expect(shape.side, BorderSide.none);
+    });
+
+    testWidgets(
+        'empty tooltip string suppresses default preset tooltip and '
+        'overlay-free tree renders safely', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        _wrapApp(
+          const AppBarButton.back(tooltip: ''),
+        ),
+      );
+      expect(find.byType(Tooltip), findsNothing);
+
+      // Without MaterialApp / Overlay ancestor, preset button safely omits Tooltip.
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: Theme(
+            data: ThemeData(useMaterial3: true),
+            child: const Center(child: AppBarButton.back()),
+          ),
+        ),
+      );
+      expect(tester.takeException(), isNull);
+      expect(find.byType(Tooltip), findsNothing);
+    });
   });
 }

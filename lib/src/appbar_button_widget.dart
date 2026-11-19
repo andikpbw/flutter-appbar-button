@@ -530,11 +530,18 @@ class _AppBarButtonState extends State<AppBarButton> {
     required AppBarButtonSize sizePreset,
     required bool hasLabel,
     required BorderSide side,
+    required TextDirection textDirection,
+    bool stripSide = false,
   }) {
     if (style.customShape != null) {
       final ShapeBorder custom = style.customShape!;
-      if (custom is OutlinedBorder && side != BorderSide.none) {
-        return custom.copyWith(side: side);
+      if (custom is OutlinedBorder) {
+        if (stripSide) {
+          return custom.copyWith(side: BorderSide.none);
+        }
+        if (side != BorderSide.none) {
+          return custom.copyWith(side: side);
+        }
       }
       return custom;
     }
@@ -548,7 +555,10 @@ class _AppBarButtonState extends State<AppBarButton> {
           side: side,
         ),
       AppBarButtonShape.squircle => ContinuousRectangleBorder(
-          borderRadius: _scaleBorderRadius(effectiveRadius, 2.15),
+          borderRadius: _scaleBorderRadius(
+            effectiveRadius.resolve(textDirection),
+            2.15,
+          ),
           side: side,
         ),
       AppBarButtonShape.circle =>
@@ -557,31 +567,28 @@ class _AppBarButtonState extends State<AppBarButton> {
     };
   }
 
-  BorderRadiusGeometry _scaleBorderRadius(
-    BorderRadiusGeometry radius,
+  BorderRadius _scaleBorderRadius(
+    BorderRadius radius,
     double factor,
   ) {
-    if (radius is BorderRadius) {
-      return BorderRadius.only(
-        topLeft: Radius.elliptical(
-          radius.topLeft.x * factor,
-          radius.topLeft.y * factor,
-        ),
-        topRight: Radius.elliptical(
-          radius.topRight.x * factor,
-          radius.topRight.y * factor,
-        ),
-        bottomLeft: Radius.elliptical(
-          radius.bottomLeft.x * factor,
-          radius.bottomLeft.y * factor,
-        ),
-        bottomRight: Radius.elliptical(
-          radius.bottomRight.x * factor,
-          radius.bottomRight.y * factor,
-        ),
-      );
-    }
-    return radius;
+    return BorderRadius.only(
+      topLeft: Radius.elliptical(
+        radius.topLeft.x * factor,
+        radius.topLeft.y * factor,
+      ),
+      topRight: Radius.elliptical(
+        radius.topRight.x * factor,
+        radius.topRight.y * factor,
+      ),
+      bottomLeft: Radius.elliptical(
+        radius.bottomLeft.x * factor,
+        radius.bottomLeft.y * factor,
+      ),
+      bottomRight: Radius.elliptical(
+        radius.bottomRight.x * factor,
+        radius.bottomRight.y * factor,
+      ),
+    );
   }
 
   _ResolvedSurfaceColors _resolveColors({
@@ -885,14 +892,27 @@ class _AppBarButtonState extends State<AppBarButton> {
         widget._iconData != null ||
         widget._presetAction == _AppBarButtonPresetAction.back;
 
-    final TextStyle resolvedTextStyle = (style.textStyle ??
-            TextStyle(
-              fontSize: sizePreset.fontSize,
-              fontWeight: FontWeight.w600,
-              letterSpacing: -0.1,
-              height: 1.1,
-            ))
-        .copyWith(color: foregroundColor);
+    final TextStyle baseTextStyle = TextStyle(
+      fontSize: sizePreset.fontSize,
+      fontWeight: FontWeight.w600,
+      letterSpacing: -0.1,
+      height: 1.1,
+      color: foregroundColor,
+    );
+    final bool visuallyDisabled = !widget.enabled || !_hasInteractiveCallback;
+    final TextStyle mergedTextStyle = baseTextStyle.merge(style.textStyle);
+    final Color? customTextColor = style.textStyle?.color;
+    final double disabledAlpha =
+        (style.disabledOpacity ?? 0.38).clamp(0.05, 1.0);
+    final TextStyle resolvedTextStyle = mergedTextStyle.copyWith(
+      color: customTextColor != null
+          ? (visuallyDisabled
+              ? customTextColor.withValues(
+                  alpha: customTextColor.a * disabledAlpha,
+                )
+              : customTextColor)
+          : foregroundColor,
+    );
 
     if (hasIcon && hasLabel) {
       final Widget leadingOrTrailingSlot = AnimatedSwitcher(
@@ -1003,6 +1023,9 @@ class _AppBarButtonState extends State<AppBarButton> {
       variant: variant,
     );
 
+    final TextDirection textDirection =
+        Directionality.maybeOf(context) ?? TextDirection.ltr;
+
     final BorderSide borderSide = colors.borderWidth > 0 && colors.border.a > 0
         ? BorderSide(color: colors.border, width: colors.borderWidth)
         : BorderSide.none;
@@ -1013,6 +1036,7 @@ class _AppBarButtonState extends State<AppBarButton> {
       sizePreset: sizePreset,
       hasLabel: hasLabel,
       side: borderSide,
+      textDirection: textDirection,
     );
 
     final ShapeBorder clipShape = _resolveShape(
@@ -1021,6 +1045,8 @@ class _AppBarButtonState extends State<AppBarButton> {
       sizePreset: sizePreset,
       hasLabel: hasLabel,
       side: BorderSide.none,
+      textDirection: textDirection,
+      stripSide: true,
     );
 
     final double height = style.height ?? sizePreset.dimension;
@@ -1173,8 +1199,6 @@ class _AppBarButtonState extends State<AppBarButton> {
 
     if (widget.badge != null) {
       final AppBarButtonBadge badge = widget.badge!;
-      final TextDirection textDirection =
-          Directionality.maybeOf(context) ?? TextDirection.ltr;
       final bool isRtl = textDirection == TextDirection.rtl;
       final Offset translatedOffset = Offset(
         isRtl ? -badge.offset.dx : badge.offset.dx,
@@ -1217,7 +1241,7 @@ class _AppBarButtonState extends State<AppBarButton> {
     );
 
     final String? effectiveTooltip = _resolveTooltip(context);
-    if (effectiveTooltip != null) {
+    if (effectiveTooltip != null && Overlay.maybeOf(context) != null) {
       buttonBody = Tooltip(
         message: effectiveTooltip,
         child: buttonBody,

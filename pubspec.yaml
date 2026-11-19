@@ -32,6 +32,10 @@ dev_dependencies:
 
 screenshots:
   - description: >-
+      Real Flutter mobile showcase of AppBarButton in light and dark mode with
+      frosted glass, unified capsules, badges, toggles, and loading states.
+    path: screenshots/appbar_button_mobile_demo.gif
+  - description: >-
       Animated showcase of AppBarButton variants, badges, loading, toggle,
       glassmorphic header, and grouped capsules in light and dark themes.
     path: screenshots/appbar_button_demo.gif

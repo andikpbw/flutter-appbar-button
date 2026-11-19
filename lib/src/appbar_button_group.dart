@@ -111,7 +111,7 @@ class AppBarButtonGroup extends StatelessWidget {
   /// Optional custom shadows for the unified capsule.
   final List<BoxShadow>? boxShadow;
 
-  ShapeBorder _resolveShape(BorderSide side) {
+  ShapeBorder _resolveShape(BorderSide side, TextDirection textDirection) {
     final BorderRadiusGeometry effectiveRadius =
         borderRadius ?? BorderRadius.circular(size.radius);
     return switch (shape) {
@@ -119,29 +119,30 @@ class AppBarButtonGroup extends StatelessWidget {
           borderRadius: effectiveRadius,
           side: side,
         ),
-      AppBarButtonShape.squircle => ContinuousRectangleBorder(
-          borderRadius: effectiveRadius is BorderRadius
-              ? BorderRadius.only(
-                  topLeft: Radius.elliptical(
-                    effectiveRadius.topLeft.x * 2.15,
-                    effectiveRadius.topLeft.y * 2.15,
-                  ),
-                  topRight: Radius.elliptical(
-                    effectiveRadius.topRight.x * 2.15,
-                    effectiveRadius.topRight.y * 2.15,
-                  ),
-                  bottomLeft: Radius.elliptical(
-                    effectiveRadius.bottomLeft.x * 2.15,
-                    effectiveRadius.bottomLeft.y * 2.15,
-                  ),
-                  bottomRight: Radius.elliptical(
-                    effectiveRadius.bottomRight.x * 2.15,
-                    effectiveRadius.bottomRight.y * 2.15,
-                  ),
-                )
-              : effectiveRadius,
-          side: side,
-        ),
+      AppBarButtonShape.squircle => () {
+          final BorderRadius resolved = effectiveRadius.resolve(textDirection);
+          return ContinuousRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.elliptical(
+                resolved.topLeft.x * 2.15,
+                resolved.topLeft.y * 2.15,
+              ),
+              topRight: Radius.elliptical(
+                resolved.topRight.x * 2.15,
+                resolved.topRight.y * 2.15,
+              ),
+              bottomLeft: Radius.elliptical(
+                resolved.bottomLeft.x * 2.15,
+                resolved.bottomLeft.y * 2.15,
+              ),
+              bottomRight: Radius.elliptical(
+                resolved.bottomRight.x * 2.15,
+                resolved.bottomRight.y * 2.15,
+              ),
+            ),
+            side: side,
+          );
+        }(),
       AppBarButtonShape.circle ||
       AppBarButtonShape.stadium =>
         StadiumBorder(side: side),
@@ -235,9 +236,11 @@ class AppBarButtonGroup extends StatelessWidget {
     }
 
     final Color resolvedDivider = dividerColor ??
-        (variant == AppBarButtonVariant.filled
-            ? cs.onPrimary.withValues(alpha: 0.24)
-            : ambientFg.withValues(alpha: lightFg ? 0.22 : 0.14));
+        switch (variant) {
+          AppBarButtonVariant.filled => cs.onPrimary.withValues(alpha: 0.24),
+          AppBarButtonVariant.elevated => cs.onSurface.withValues(alpha: 0.14),
+          _ => ambientFg.withValues(alpha: lightFg ? 0.22 : 0.14),
+        };
 
     final double resolvedDividerHeight =
         dividerHeight ?? (size.dimension * 0.45);
@@ -258,22 +261,29 @@ class AppBarButtonGroup extends StatelessWidget {
 
     final AppBarButtonStyle inheritedStyle =
         AppBarButtonTheme.of(context).style;
+    final Color? segmentForeground = switch (variant) {
+      AppBarButtonVariant.filled =>
+        backgroundColor == null ? cs.onPrimary : inheritedStyle.foregroundColor,
+      AppBarButtonVariant.elevated =>
+        backgroundColor == null ? cs.onSurface : inheritedStyle.foregroundColor,
+      _ => inheritedStyle.foregroundColor,
+    };
     final AppBarButtonStyle childSegmentStyle = inheritedStyle.copyWith(
       variant: AppBarButtonVariant.ghost,
       size: size,
-      foregroundColor: variant == AppBarButtonVariant.filled
-          ? cs.onPrimary
-          : inheritedStyle.foregroundColor,
+      foregroundColor: segmentForeground,
       customShape: const RoundedRectangleBorder(),
       enableScaleAnimation: false,
       margin: EdgeInsets.zero,
     );
 
+    final TextDirection textDirection =
+        Directionality.maybeOf(context) ?? TextDirection.ltr;
     final BorderSide side = resolvedBorderWidth > 0 && resolvedBorder.a > 0
         ? BorderSide(color: resolvedBorder, width: resolvedBorderWidth)
         : BorderSide.none;
-    final ShapeBorder outerShape = _resolveShape(side);
-    final ShapeBorder clipShape = _resolveShape(BorderSide.none);
+    final ShapeBorder outerShape = _resolveShape(side, textDirection);
+    final ShapeBorder clipShape = _resolveShape(BorderSide.none, textDirection);
 
     final Widget capsuleContent = AppBarButtonTheme(
       data: AppBarButtonThemeData(style: childSegmentStyle),

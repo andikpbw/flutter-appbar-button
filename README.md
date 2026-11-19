@@ -1,6 +1,13 @@
+<p align="center">
+  <a href="https://pub.dev/packages/appbar_button">
+    <img src="https://raw.githubusercontent.com/andikpbw/flutter-appbar-button/main/doc/assets/medal_banner.png" alt="#1 Flutter Library - 160 / 160 Pub Points, Zero Dependencies - Modern & Customizable AppBar Buttons" width="100%" />
+  </a>
+</p>
+
 # appbar_button
 
 [![pub package](https://img.shields.io/pub/v/appbar_button.svg)](https://pub.dev/packages/appbar_button)
+[![Pub Points](https://img.shields.io/pub/points/appbar_button)](https://pub.dev/packages/appbar_button/score)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/andikpbw/flutter-appbar-button/blob/main/LICENSE)
 [![Platform](https://img.shields.io/badge/platform-android%20%7C%20ios%20%7C%20web%20%7C%20macos%20%7C%20windows%20%7C%20linux-informational.svg)](https://pub.dev/packages/appbar_button)
 
@@ -8,8 +15,16 @@
 
 Elevate your `AppBar`, `SliverAppBar`, `CupertinoNavigationBar`, and custom toolbars with zero third-party dependencies, automatic light/dark/colored contrast adaptation, frosted glassmorphism, notification badges, inline loading states, smooth toggle morphing, and unified segmented action capsules.
 
+### Live Mobile UI Preview (Light & Dark Mode)
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/andikpbw/flutter-appbar-button/main/screenshots/appbar_button_demo.gif" alt="appbar_button real Flutter UI animated demo showing tonal, filled, outlined, ghost, elevated, and glassmorphic variants, badges, loading state, toggles, unified capsules, and light/dark themes" width="660" />
+  <img src="https://raw.githubusercontent.com/andikpbw/flutter-appbar-button/main/screenshots/appbar_button_mobile_demo.gif" alt="appbar_button real Flutter UI animated mobile frame preview showing Light and Dark mode flagship screens with frosted glass AppBar, unified capsules, badges, toggles, and inline loading spinners" width="660" />
+</p>
+
+### Interactive Variants & Live Theme Transition
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andikpbw/flutter-appbar-button/main/screenshots/appbar_button_demo.gif" alt="appbar_button interactive variants showcase demonstrating tonal, filled, outlined, ghost, elevated, and glassmorphic styles, badges, loading, toggles, and live light/dark switching" width="660" />
 </p>
 
 ---
